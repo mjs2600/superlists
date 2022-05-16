@@ -1,6 +1,7 @@
 import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 import pytest
 
 
@@ -19,11 +20,11 @@ def test_can_start_a_list_and_retrieve_it_later(browser):
     # She notices the page title and header mention to-do lists.
     assert "To-Do" in browser.title
 
-    header_text = browser.find_element_by_tag_name("h1").text
+    header_text = browser.find_element(by=By.TAG_NAME, value="h1").text
     assert "To-Do" in header_text
 
     # She is invited to enter a to-do list item straight away.
-    inputbox = browser.find_element_by_id("id_new_item")
+    inputbox = browser.find_element(by=By.ID, value="id_new_item")
     assert inputbox.get_attribute("placeholder") == "Enter a to-do list item"
 
     # She types "Buy peacock feathers" into a text box (Edith's hobby
@@ -35,8 +36,8 @@ def test_can_start_a_list_and_retrieve_it_later(browser):
     inputbox.send_keys(Keys.ENTER)
     time.sleep(1)
 
-    table = browser.find_element_by_id("id_list_table")
-    rows = table.find_elements_by_tag_name("tr")
+    table = browser.find_element(by=By.ID, value="id_list_table")
+    rows = table.find_elements(by=By.TAG_NAME, value="tr")
     assert any(row.text == "1: Buy peacock feathers" for row in rows)
 
     # There is still a text box inviting her to add another item. She
